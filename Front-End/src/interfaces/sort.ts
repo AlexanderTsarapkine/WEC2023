@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-interface SortedArsenal<T> {
-    data: T[];
-  sortedColumn: keyof T | null;
-  sortColumn(columnName: keyof T): void;
-  sortedDataByColumns: Record<keyof T, T[]>;
+interface SortedArsenal<Arsenal> {
+  data: Arsenal[];
+  sortedColumn: keyof Arsenal | null;
+  sort(columnName: keyof Arsenal): void;
+  sortedDataByColumns: Record<keyof Arsenal, Arsenal[]>;
 }
 
 interface Arsenal {
@@ -24,7 +24,7 @@ export function useSortableTable(initialData: Arsenal[]): SortedArsenal<Arsenal>
     CombatUsefulness: [],
   });
 
-  const sortColumn = (columnName: keyof Arsenal) => {
+  const sort = (columnName: keyof Arsenal) => {
     const sortedData = [...data];
     const sortedDataCopy = { ...sortedDataByColumns };
 
@@ -40,7 +40,7 @@ export function useSortableTable(initialData: Arsenal[]): SortedArsenal<Arsenal>
     setSortedDataByColumns(sortedDataCopy);
   };
 
-  return { data, sortedColumn, sortColumn, sortedDataByColumns };
+  return { data, sortedColumn, sort, sortedDataByColumns };
 }
 
 export type {Arsenal as Arsenal};
