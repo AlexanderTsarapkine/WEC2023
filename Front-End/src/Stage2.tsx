@@ -31,6 +31,8 @@ function calculateSM(array: number[]): number {
     return array.reduce((sm, weight) => findSM(sm, weight), array[0]);
 }
 
+
+
 function CalcBonus(array: Arsenal[], combs: Combination[]): Bonus {
     let survival = 0;
     let combat = 0;
@@ -51,6 +53,7 @@ function CalcBonus(array: Arsenal[], combs: Combination[]): Bonus {
 
 const Stage2: React.FC<Props> = (props) => {
     const [mySack, setMySack] = useState<Arsenal[]>(knapsack({ weight: props.weight, arsenal: props.arsenal, optimization: props.optimization }));
+    const [bonuses, setBonuses] = useState({survival: 0, combat: 0})
 
     useEffect(() => {
         const sm = calculateSM(props.arsenal.map((item) => item.Weight));
@@ -71,19 +74,22 @@ const Stage2: React.FC<Props> = (props) => {
         
 
         setMySack(newSack);
-
-
+        
 
     }, [props.weight, props.arsenal, props.optimization]);
 
-    const bonuses = CalcBonus(mySack, props.combinations);
+    useEffect(() => {
+        setBonuses(CalcBonus(mySack, props.combinations)) ;
+    }, [mySack]);
+
 
     return (
         <div>
-            Gear chosen: {mySack.map((item) => item.ObjectName).join(", ")} <br />
-            Gear not chosen: {props.arsenal.filter((item) => !mySack.includes(item)).map((item) => item.ObjectName).join(", ")}<br />
-            Total weight of gear chosen: {mySack.reduce((total, item) => total + item.Weight, 0)}<br />
-            Total Survival Usefulness: {mySack.reduce((total, item) => total + item.SurvivalUsefulness, 0) + bonuses.survival}<br />
+            <br />
+            Gear chosen: <br />{mySack.map((item) => item.ObjectName).join(", ")} <br /> <br />
+            Gear not chosen: <br />{props.arsenal.filter((item) => !mySack.includes(item)).map((item) => item.ObjectName).join(", ")}<br /> <br />
+            Total weight of gear chosen: {mySack.reduce((total, item) => total + item.Weight, 0)}<br /> <br />
+            Total Survival Usefulness: {mySack.reduce((total, item) => total + item.SurvivalUsefulness, 0) + bonuses.survival}<br /> <br />
             Total Combat Usefulness: {mySack.reduce((total, item) => total + item.CombatUsefulness, 0)+ bonuses.combat}
         </div>
     );
