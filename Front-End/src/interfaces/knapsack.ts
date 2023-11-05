@@ -1,16 +1,14 @@
-import { Arsenal } from "./types";
+import { Arsenal } from "./sort";
 
 interface Props {
     weight: number;
     arsenal: Arsenal[];
+    optimization: "survival" | "combat" | "both";
 }
 
-interface Combinations {
-    [key: string]: Arsenal[];
-}
 
 export function knapsack(props: Props): Arsenal[] {
-    const { weight, arsenal } = props;
+    const { weight, arsenal, optimization } = props;
     const n = arsenal.length;
 
     // Initialize a 2D array to store the results of subproblems
@@ -33,13 +31,31 @@ export function knapsack(props: Props): Arsenal[] {
                 const survivalScore = dp[i - 1][w - Math.ceil(item.Weight)] + item.SurvivalUsefulness;
                 const combatScore = dp[i - 1][w - Math.ceil(item.Weight)] + item.CombatUsefulness;
 
-                const combinedScore = survivalScore + combatScore;
-                if (combinedScore >= dp[i - 1][w]) {
-                    dp[i][w] = combinedScore;
-                    selected[i][w] = true;
+                if (optimization === "survival") {
+                    if (survivalScore >= dp[i - 1][w]) {
+                        dp[i][w] = survivalScore;
+                        selected[i][w] = true;
+                    } else {
+                        dp[i][w] = dp[i - 1][w];
+                        selected[i][w] = false;
+                    }
+                } else if (optimization === "combat") {
+                    if (combatScore >= dp[i - 1][w]) {
+                        dp[i][w] = combatScore;
+                        selected[i][w] = true;
+                    } else {
+                        dp[i][w] = dp[i - 1][w];
+                        selected[i][w] = false;
+                    }
                 } else {
-                    dp[i][w] = dp[i - 1][w];
-                    selected[i][w] = false;
+                    const combinedScore = survivalScore + combatScore;
+                    if (combinedScore >= dp[i - 1][w]) {
+                        dp[i][w] = combinedScore;
+                        selected[i][w] = true;
+                    } else {
+                        dp[i][w] = dp[i - 1][w];
+                        selected[i][w] = false;
+                    }
                 }
             } else {
                 dp[i][w] = dp[i - 1][w];
@@ -202,5 +218,6 @@ export const testArsenal: Props = {
             CombatUsefulness: 0,
         }
     ],
+    optimization: "both", // You can choose "survival", "combat", or "both"
 };
 

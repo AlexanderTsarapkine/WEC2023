@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Arsenal } from './interfaces/types';
+import { Arsenal } from './interfaces/type';
 import { useState } from 'react';
 import { knapsack } from './interfaces/knapsack';
 

@@ -5,13 +5,13 @@ interface Arsenal {
     CombatUsefulness: number;
 }
 
-// interface Combination {
-//     ObjectOneName: string;
-//     ObjectTwoName: string;
-//     CombinationName: string;
-//     SurvivalBonus: string;
-//     CombatBonus: string;
-// }
+export interface Combination {
+    ObjectOneName: string;
+    ObjectTwoName: string;
+    CombinationName: string;
+    SurvivalBonus: number;
+    CombatBonus: number;
+}
 
 // interface AntiCombination {
 //     ObjectName: string;
@@ -21,4 +21,4 @@ interface Arsenal {
 // 
 // }
 
-export type {Arsenal as Arsenal};
+export type { Arsenal as Arsenal };
