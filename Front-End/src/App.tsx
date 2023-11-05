@@ -67,7 +67,7 @@ function App() {
             },
             {
               label: "Stage 2",
-              content: <Stage2 combinations={parsedComb} weight={testArsenal.weight} arsenal={testArsenal.arsenal} optimization={testArsenal.optimization} />
+              content: <Stage2 combinations={parsedComb} weight={testArsenal.weight} arsenal={stageOne[0]} optimization={testArsenal.optimization} />
             },
             {
               label: "Stage 3",
