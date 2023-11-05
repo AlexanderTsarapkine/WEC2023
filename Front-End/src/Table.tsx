@@ -25,7 +25,7 @@ const Table: React.FC<Props> = ({ data }) => {
                         ObjectName
                     </th>
                     <th
-                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 cursor-pointer"
+                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 cursor-pointer`"
                         onClick={() => handleClick(1)} // Set state to 2 when Weight header is clicked
                     >
                         Weight

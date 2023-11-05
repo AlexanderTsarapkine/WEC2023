@@ -10,36 +10,44 @@ interface Props {
     optimization: "survival" | "combat" | "both";
 }
 
+function calculateSM(array: number[]): number {
+    function findSM(a: number, b: number): number {
+        return (a * b) / findGCD(a, b);
+    }
 
-
-function calulateLCD(arr: number[]) {
-    function gcd(a: number, b: number) {
-        if (!b) {
+    function findGCD(a: number, b: number): number {
+        if (b === 0) {
             return a;
         }
-        return gcd(b, a % b);
+        return findGCD(b, a % b);
     }
-    let divisor = arr[0];
-    for (let i = 1; i < arr.length; i++) {
-        divisor = gcd(divisor, arr[i]);
-    }
-    return divisor;
+
+    return array.reduce((sm, weight) => findSM(sm, weight), array[0]);
 }
+
 const Stage2: React.FC<Props> = (props) => {
     const [mySack, setMySack] = useState<Arsenal[]>(knapsack({ weight: props.weight, arsenal: props.arsenal, optimization: props.optimization }));
 
     useEffect(() => {
-        const lcd = calulateLCD(props.arsenal.map((item) => item.Weight));
-        const newWeight = props.weight * lcd;
-        const newArsenal = props.arsenal.map((item) => {
+        const sm = calculateSM(props.arsenal.map((item) => item.Weight));
+        const weight = props.weight * sm;
+        // make a new list of items with the weight multiplied by the SM
+        const weightedArsenal = props.arsenal.map((item) => {
             return {
                 ...item,
-                Weight: item.Weight * lcd
+                Weight: item.Weight * sm
             };
         });
-        const newSack = knapsack({ weight: newWeight, arsenal: newArsenal, optimization: props.optimization });
-        setMySack(newSack);
         
+        const newSack = knapsack({ weight, arsenal: weightedArsenal, optimization: props.optimization });
+        // divide the weight of the items in the sack by the SM
+        newSack.forEach((item) => {
+            item.Weight = item.Weight / sm;
+        });
+
+        
+        setMySack(newSack);
+
     }, [props.weight, props.arsenal, props.optimization]);
 
     return (
