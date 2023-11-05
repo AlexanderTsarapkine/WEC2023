@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Arsenal } from './interfaces/sort';
+import { Arsenal } from './interfaces/types';
 import { useState } from 'react';
 import { knapsack } from './interfaces/knapsack';
 
@@ -45,7 +45,7 @@ const Stage2: React.FC<Props> = (props) => {
             item.Weight = item.Weight / sm;
         });
 
-        
+
         setMySack(newSack);
 
     }, [props.weight, props.arsenal, props.optimization]);

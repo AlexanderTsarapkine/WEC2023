@@ -1,4 +1,4 @@
-import { Arsenal } from "./sort";
+import { Arsenal } from "./types";
 
 interface Props {
     weight: number;
