@@ -14,7 +14,12 @@ export interface Combination {
 }
 
 export interface AntiCombination {
-    [key: string]: string;
+    gear:{
+        gearId: number;
+        gearName: string;
+        gearExceptions: string[];
+
+    }
 }
 
 export type { Arsenal as Arsenal };

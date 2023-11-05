@@ -39,7 +39,7 @@ function CalcBonus(array: Arsenal[], combs: Combination[]): Bonus {
 
     for (const item of combs) {
         const arsenalOneExists = array.some(arsenal => arsenal.ObjectName === item.ObjectOneName);
-        
+
         const arsenalTwoExists = array.some(arsenal => arsenal.ObjectName === item.ObjectTwoName);
 
         if (arsenalOneExists && arsenalTwoExists) {
@@ -53,9 +53,10 @@ function CalcBonus(array: Arsenal[], combs: Combination[]): Bonus {
 
 const Stage2: React.FC<Props> = (props) => {
     const [mySack, setMySack] = useState<Arsenal[]>(knapsack({ weight: props.weight, arsenal: props.arsenal, optimization: props.optimization }));
-    const [bonuses, setBonuses] = useState({survival: 0, combat: 0})
+    const [bonuses, setBonuses] = useState({ survival: 0, combat: 0 });
 
     useEffect(() => {
+        let startTime = Date.now();
         const sm = calculateSM(props.arsenal.map((item) => item.Weight));
         const weight = props.weight * sm;
         // make a new list of items with the weight multiplied by the SM
@@ -72,14 +73,32 @@ const Stage2: React.FC<Props> = (props) => {
             item.Weight = item.Weight / sm;
         });
 
-        
-        setMySack(newSack);
-        
 
+        const weightedArsenl = props.arsenal.map((item) => {
+            return {
+                ...item,
+                // Also add the score of the cominations to the arsenal
+                SurvivalUsefulness: item.SurvivalUsefulness + item.CombatUsefulness + props.combinations.filter((combination) => combination.ObjectOneName === item.ObjectName || combination.ObjectTwoName === item.ObjectName).reduce((total, combination) => total + combination.SurvivalBonus, 0),
+                CombatUsefulness: 0,
+            };
+        });
+
+        const newSack2 = knapsack({ weight, arsenal: weightedArsenl, optimization: props.optimization });
+
+        // Compare the two sacks and choose the one with the highest score
+        if (newSack2.reduce((total, item) => total + item.SurvivalUsefulness, 0) > newSack.reduce((total, item) => total + item.SurvivalUsefulness, 0)) {
+            setMySack(newSack2);
+        } else {
+            setMySack(newSack);
+        }
+
+        setMySack(newSack);
+
+        console.log("Stage 2 took " + (Date.now() - startTime) + "ms");
     }, [props.weight, props.arsenal, props.optimization]);
 
     useEffect(() => {
-        setBonuses(CalcBonus(mySack, props.combinations)) ;
+        setBonuses(CalcBonus(mySack, props.combinations));
     }, [mySack]);
 
 
@@ -90,7 +109,7 @@ const Stage2: React.FC<Props> = (props) => {
             Gear not chosen: <br />{props.arsenal.filter((item) => !mySack.includes(item)).map((item) => item.ObjectName).join(", ")}<br /> <br />
             Total weight of gear chosen: {mySack.reduce((total, item) => total + item.Weight, 0)}<br /> <br />
             Total Survival Usefulness: {mySack.reduce((total, item) => total + item.SurvivalUsefulness, 0) + bonuses.survival}<br /> <br />
-            Total Combat Usefulness: {mySack.reduce((total, item) => total + item.CombatUsefulness, 0)+ bonuses.combat}
+            Total Combat Usefulness: {mySack.reduce((total, item) => total + item.CombatUsefulness, 0) + bonuses.combat}
         </div>
     );
 };

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Arsenal, Combination, AntiCombination } from "./interfaces/types";
+import { Arsenal, AntiCombination } from "./interfaces/types";
 import { knapsack } from "./interfaces/knapsack";
 
 interface Props {

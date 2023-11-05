@@ -99,13 +99,7 @@ export function convertAntiCombination(file: File): Promise<AntiCombination[]> {
       const content = event.target?.result as string;
       
       // parse the json file
-      const rows: AntiCombination[]  = JSON.parse(content);
-    
-      let data: [[string, string]];
-
-      for (const row of rows) {
-        data.push([row.ObjectOneName, row.ObjectTwoName]);
-      }
+      const data: AntiCombination[]  = JSON.parse(content);
 
       resolve(data);
     };

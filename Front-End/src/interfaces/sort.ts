@@ -19,10 +19,13 @@ function sortArsenalByColumn(data: Arsenal[], columnName: keyof Arsenal): Arsena
 }
 
 export function sortArsenalArray(data: Arsenal[]): Array<Arsenal[]> {
+  let starttime = new Date().getMilliseconds();
   const sortedByTitle = sortArsenalByColumn(data, 'ObjectName');
   const sortedByWeight = sortArsenalByColumn(data, 'Weight');
   const sortedBySurvivalUsefulness = sortArsenalByColumn(data, 'SurvivalUsefulness');
   const sortedByCombatUsefulness = sortArsenalByColumn(data, 'CombatUsefulness');
+
+  console.log(`Sorting took ${new Date().getMilliseconds() - starttime}ms`);
 
   return [sortedByTitle, sortedByWeight, sortedBySurvivalUsefulness, sortedByCombatUsefulness];
 }

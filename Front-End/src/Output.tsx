@@ -17,7 +17,7 @@ const Output: React.FC<Props> = ({ tabs }) => {
     };
 
     return (
-        <div>
+        <div className='w-full'>
             <div className="sm:hidden">
                 <label htmlFor="Tab" className="sr-only">Tab</label>
                 <select id="Tab" className="w-full rounded-md border-gray-200">

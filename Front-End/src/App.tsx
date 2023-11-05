@@ -42,18 +42,6 @@ function App() {
       setParsedComb(parsedComb);
     }
   };
-
-  const fileAntiComUpdated = async () => {
-    if (antiComFile) {
-      const parsedAntiCom = await (antiComFile);
-      setParsedAntiCom(parsedAntiCom);
-    }
-  }
-
-
-
-
-
   useEffect(() => {
     const fetchData = async () => {
       await fileCombUpdated();
@@ -64,7 +52,14 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await fileAntiComUpdated();
+      if (antiComFile) {
+        const parsedAntiCom = await convertAntiCombination(antiComFile);
+        console.log(parsedAntiCom)
+        // convert the anticom to a list of tuples
+        // @ts-ignore
+        const gearTuples = parsedAntiCom.gear.map(item => [item.gearId, item.gearName, item.gearExceptions]);
+        setParsedAntiCom(gearTuples);
+      }
     };
 
     fetchData();
@@ -84,7 +79,7 @@ function App() {
 
           <img src="Elon.jpg" alt="Elon Musk" />
         </div>
-        <div className="flex-1 min-w-96">
+        <div className="flex-1 w-full">
           <Output tabs={[
             {
               label: "Stage 1",
@@ -92,11 +87,11 @@ function App() {
             },
             {
               label: "Stage 2",
-              content: <Stage2 combinations={parsedComb} weight={testArsenal.weight} arsenal={stageOne[0]} optimization={testArsenal.optimization} />
+              content: stageOne[0] ? <Stage2 combinations={parsedComb} weight={testArsenal.weight} arsenal={stageOne[0]} optimization={testArsenal.optimization} /> : <></>
             },
             {
               label: "Stage 3",
-              content: <Stage3 weight={testArsenal.weight} arsenal={testArsenal.arsenal} optimization={testArsenal.optimization} anticombos={testArsenal.anticombos} />
+              content: <Stage3 weight={testArsenal.weight} arsenal={testArsenal.arsenal} optimization={testArsenal.optimization} anticombos={parsedAntiCom} />
             }
           ]} />
         </div>
