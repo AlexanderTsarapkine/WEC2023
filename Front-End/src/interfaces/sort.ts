@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 interface SortedArsenal<T> {
-  data: T[];
+    data: T[];
   sortedColumn: keyof T | null;
   sortColumn(columnName: keyof T): void;
   sortedDataByColumns: Record<keyof T, T[]>;
@@ -42,3 +42,5 @@ export function useSortableTable(initialData: Arsenal[]): SortedArsenal<Arsenal>
 
   return { data, sortedColumn, sortColumn, sortedDataByColumns };
 }
+
+export type {Arsenal as Arsenal};
