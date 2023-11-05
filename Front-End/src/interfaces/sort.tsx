@@ -7,24 +7,24 @@ interface SortedArsenal<T> {
   sortedDataByColumns: Record<keyof T, T[]>;
 }
 
-interface ObjectType {
+interface Arsenal {
   ObjectName: string;
   Weight: number;
   SurvivalUsefulness: number;
   CombatUsefulness: number;
 }
 
-export function useSortableTable(initialData: ObjectType[]): SortedArsenal<ObjectType> {
+export function useSortableTable(initialData: Arsenal[]): SortedArsenal<Arsenal> {
   const [data, setData] = useState(initialData);
-  const [sortedColumn, setSortedColumn] = useState<keyof ObjectType | null>(null);
-  const [sortedDataByColumns, setSortedDataByColumns] = useState<Record<keyof ObjectType, ObjectType[]>>({
+  const [sortedColumn, setSortedColumn] = useState<keyof Arsenal | null>(null);
+  const [sortedDataByColumns, setSortedDataByColumns] = useState<Record<keyof Arsenal, Arsenal[]>>({
     ObjectName: [],
     Weight: [],
     SurvivalUsefulness: [],
     CombatUsefulness: [],
   });
 
-  const sortColumn = (columnName: keyof ObjectType) => {
+  const sortColumn = (columnName: keyof Arsenal) => {
     const sortedData = [...data];
     const sortedDataCopy = { ...sortedDataByColumns };
 
