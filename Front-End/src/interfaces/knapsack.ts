@@ -1,4 +1,4 @@
-import { Arsenal } from "./sort";
+import { Arsenal, Combination } from "./types";
 
 interface Props {
     weight: number;
@@ -10,6 +10,8 @@ interface Props {
 export function knapsack(props: Props): Arsenal[] {
     const { weight, arsenal, optimization } = props;
     const n = arsenal.length;
+
+
 
     // Initialize a 2D array to store the results of subproblems
     const dp: number[][] = new Array(n + 1);
@@ -83,7 +85,7 @@ export function knapsack(props: Props): Arsenal[] {
 
 // Example usage:
 export const testArsenal: Props = {
-    weight: 5, // The maximum weight limit
+    weight: 10, // The maximum weight limit
     arsenal: [
         {
             ObjectName: "Hatchet",

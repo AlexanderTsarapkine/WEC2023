@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
-import { Arsenal, Combination } from './interfaces/types';
-import { useState } from 'react';
-import { knapsack } from './interfaces/knapsack';
-
+import { useState, useEffect } from "react";
+import { Arsenal, Combination, AntiCombination } from "./interfaces/types";
+import { knapsack } from "./interfaces/knapsack";
 
 interface Props {
     weight: number;
     arsenal: Arsenal[];
-    combinations: Combination[];
     optimization: "survival" | "combat" | "both";
+    anticombos: AntiCombination[];
 }
+
 
 function calculateSM(array: number[]): number {
     function findSM(a: number, b: number): number {
@@ -26,9 +25,10 @@ function calculateSM(array: number[]): number {
     return array.reduce((sm, weight) => findSM(sm, weight), array[0]);
 }
 
-const Stage2: React.FC<Props> = (props) => {
+const MyComponent: React.FC<Props> = (props) => {
     const [mySack, setMySack] = useState<Arsenal[]>(knapsack({ weight: props.weight, arsenal: props.arsenal, optimization: props.optimization }));
-
+    const [bonusSurvival, setBonusesSurivial] = useState(0)
+    
     useEffect(() => {
         const sm = calculateSM(props.arsenal.map((item) => item.Weight));
         const weight = props.weight * sm;
@@ -44,11 +44,19 @@ const Stage2: React.FC<Props> = (props) => {
         // divide the weight of the items in the sack by the SM
         newSack.forEach((item) => {
             item.Weight = item.Weight / sm;
+        }); 
+
+        // Remove all the anti combos from the sack
+        newSack.forEach((item) => {
+            props.anticombos.forEach((anticombo) => {
+                if (anticombo.ObjectName === item.ObjectName) {
+                    newSack.splice(newSack.indexOf(item), 1);
+                }
+            });
         });
+
         
-
-        setMySack(newSack);
-
+        
 
 
     }, [props.weight, props.arsenal, props.optimization]);
@@ -64,4 +72,4 @@ const Stage2: React.FC<Props> = (props) => {
     );
 };
 
-export default Stage2;
+export default MyComponent;

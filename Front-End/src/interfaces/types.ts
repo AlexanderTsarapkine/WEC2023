@@ -13,12 +13,12 @@ export interface Combination {
     CombatBonus: number;
 }
 
-// interface AntiCombination {
-//     ObjectName: string;
-//     Weight: number;
-//     SurvivalUsefulness: number;
-//     CombatUsefulness: number;
-// 
-// }
+export interface AntiCombination {
+    ObjectName: string;
+    Weight: number;
+    SurvivalUsefulness: number;
+    CombatUsefulness: number;
+
+}
 
 export type { Arsenal as Arsenal };
