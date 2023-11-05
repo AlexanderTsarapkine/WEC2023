@@ -17,7 +17,7 @@ function UploadFile({ setSelectedFile }: { setSelectedFile: (file: File) => void
                     className=""
                     id="file_input"
                     type="file"
-                    accept=".csv"
+                    accept=".csv, .json"
                     max={1}
                     onChange={handleFileSelect}
                 />

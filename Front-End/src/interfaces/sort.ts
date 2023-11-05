@@ -8,7 +8,13 @@ function sortArsenalByColumn(data: Arsenal[], columnName: keyof Arsenal): Arsena
     if (a[columnName] > b[columnName]) {
       return 1;
     }
-    return 0;
+    // Check the name of the object if the values are equal
+    if (a.ObjectName < b.ObjectName) {
+      return -1;
+    }
+
+    return 1;
+
   });
 }
 

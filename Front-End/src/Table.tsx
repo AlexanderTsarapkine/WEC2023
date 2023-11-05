@@ -19,13 +19,13 @@ const Table: React.FC<Props> = ({ data }) => {
                 <thead className="ltr:text-left rtl:text-right">
                     <tr>
                     <th
-                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 cursor-pointer"
                         onClick={() => handleClick(0)} // Set state to 1 when ObjectName header is clicked
                     >
                         ObjectName
                     </th>
                     <th
-                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 cursor-pointer`"
+                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 cursor-pointer"
                         onClick={() => handleClick(1)} // Set state to 2 when Weight header is clicked
                     >
                         Weight

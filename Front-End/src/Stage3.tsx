@@ -6,7 +6,7 @@ interface Props {
     weight: number;
     arsenal: Arsenal[];
     optimization: "survival" | "combat" | "both";
-    anticombos: AntiCombination[];
+    anticombos: [[string, string]];
 }
 
 
@@ -27,8 +27,7 @@ function calculateSM(array: number[]): number {
 
 const MyComponent: React.FC<Props> = (props) => {
     const [mySack, setMySack] = useState<Arsenal[]>(knapsack({ weight: props.weight, arsenal: props.arsenal, optimization: props.optimization }));
-    const [bonusSurvival, setBonusesSurivial] = useState(0)
-    
+
     useEffect(() => {
         const sm = calculateSM(props.arsenal.map((item) => item.Weight));
         const weight = props.weight * sm;
@@ -44,22 +43,50 @@ const MyComponent: React.FC<Props> = (props) => {
         // divide the weight of the items in the sack by the SM
         newSack.forEach((item) => {
             item.Weight = item.Weight / sm;
-        }); 
-
-        // Remove all the anti combos from the sack
-        newSack.forEach((item) => {
-            props.anticombos.forEach((anticombo) => {
-                if (anticombo.ObjectName === item.ObjectName) {
-                    newSack.splice(newSack.indexOf(item), 1);
-                }
-            });
         });
 
-        
-        
+        // Remove all the anti combos from the sack
+        props.anticombos.forEach((combo) => {
+            // Remove the anti combo with lowest usefulness 
+            const antiCombo: AntiCombination = {
+                ObjectName: combo[0],
+                AntiObjectName: combo[1]
+            };
+            const antiCombo2: AntiCombination = {
+                ObjectName: combo[1],
+                AntiObjectName: combo[0]
+            };
 
+            const item1 = newSack.find((item) => item.ObjectName === antiCombo.ObjectName);
+            const item2 = newSack.find((item) => item.ObjectName === antiCombo2.ObjectName);
 
+            if (item1 && item2) {
+                if (item1.SurvivalUsefulness + item1.CombatUsefulness > item2.SurvivalUsefulness + item2.CombatUsefulness) {
+                    newSack.splice(newSack.indexOf(item2), 1);
+                } else {
+                    newSack.splice(newSack.indexOf(item1), 1);
+                }
+            }
+
+            // sort the arnsenal by survival usefulness
+            newSack.sort((a, b) => b.SurvivalUsefulness + b.CombatUsefulness - a.SurvivalUsefulness + a.CombatUsefulness);
+
+            // iterate through the arsenal and add the next item if it doesn't create an anti combo and if it doesn't exceed the weight and if it isn't already in the sack
+            const newSack2: Arsenal[] = [];
+            let weight = props.weight;
+            for (let i = 0; i < newSack.length; i++) {
+                const item = newSack[i];
+                if (item.Weight <= weight && !newSack2.includes(item)) {
+                    newSack2.push(item);
+                    weight -= item.Weight;
+                }
+            }
+
+            // set the sack to the new sack
+            setMySack(newSack2);
+        });
     }, [props.weight, props.arsenal, props.optimization]);
+
 
     return (
         <div>

@@ -1,4 +1,4 @@
-import { Arsenal, Combination } from "./types";
+import { AntiCombination, Arsenal, Combination } from "./types";
 
 function parseCsvRow(row: string): Arsenal | null {
   const [ObjectName, Weight, SurvivalUsefulness, CombatUsefulness] = row.split(',');
@@ -81,6 +81,30 @@ export function convertCombination(file: File): Promise<Combination[]> {
         if (combination) {
           data.push(combination);
         }
+      }
+
+      resolve(data);
+    };
+
+    reader.readAsText(file);
+  });
+}
+
+export function convertAntiCombination(file: File): Promise<AntiCombination[]> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      // parse the json file
+      const content = event.target?.result as string;
+      
+      // parse the json file
+      const rows: AntiCombination[]  = JSON.parse(content);
+    
+      let data: [[string, string]];
+
+      for (const row of rows) {
+        data.push([row.ObjectOneName, row.ObjectTwoName]);
       }
 
       resolve(data);

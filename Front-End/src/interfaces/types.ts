@@ -14,11 +14,7 @@ export interface Combination {
 }
 
 export interface AntiCombination {
-    ObjectName: string;
-    Weight: number;
-    SurvivalUsefulness: number;
-    CombatUsefulness: number;
-
+    [key: string]: string;
 }
 
 export type { Arsenal as Arsenal };

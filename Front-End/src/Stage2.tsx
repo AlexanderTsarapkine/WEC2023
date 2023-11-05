@@ -71,8 +71,8 @@ const Stage2: React.FC<Props> = (props) => {
         newSack.forEach((item) => {
             item.Weight = item.Weight / sm;
         });
-        
 
+        
         setMySack(newSack);
         
 
