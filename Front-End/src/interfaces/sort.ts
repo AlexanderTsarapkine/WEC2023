@@ -4,7 +4,7 @@ interface SortedArsenal<Arsenal> {
   data: Arsenal[];
   sortedColumn: keyof Arsenal | null;
   sort(columnName: keyof Arsenal): void;
-  sortedDataByColumns: Record<keyof Arsenal, Arsenal[]>;
+  sortedByColumns: Record<keyof Arsenal, Arsenal[]>;
 }
 
 interface Arsenal {
@@ -17,7 +17,7 @@ interface Arsenal {
 export function useSortableTable(initialData: Arsenal[]): SortedArsenal<Arsenal> {
   const [data, setData] = useState(initialData);
   const [sortedColumn, setSortedColumn] = useState<keyof Arsenal | null>(null);
-  const [sortedDataByColumns, setSortedDataByColumns] = useState<Record<keyof Arsenal, Arsenal[]>>({
+  const [sortedByColumns, setSortedByColumns] = useState<Record<keyof Arsenal, Arsenal[]>>({
     ObjectName: [],
     Weight: [],
     SurvivalUsefulness: [],
@@ -25,22 +25,22 @@ export function useSortableTable(initialData: Arsenal[]): SortedArsenal<Arsenal>
   });
 
   const sort = (columnName: keyof Arsenal) => {
-    const sortedData = [...data];
-    const sortedDataCopy = { ...sortedDataByColumns };
+    const sorted = [...data];
+    const sortedCopy = { ...sortedByColumns };
 
-    sortedData.sort((a, b) => {
+    sorted.sort((a, b) => {
       if (a[columnName] < b[columnName]) return -1;
       if (a[columnName] > b[columnName]) return 1;
       return 0;
     });
 
-    sortedDataCopy[columnName] = sortedData;
-    setData(sortedData);
+    sortedCopy[columnName] = sorted;
+    setData(sorted);
     setSortedColumn(columnName);
-    setSortedDataByColumns(sortedDataCopy);
+    setSortedByColumns(sortedCopy);
   };
 
-  return { data, sortedColumn, sort, sortedDataByColumns };
+  return { data, sortedColumn, sort, sortedByColumns };
 }
 
 export type {Arsenal as Arsenal};
