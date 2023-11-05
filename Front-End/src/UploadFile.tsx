@@ -1,15 +1,11 @@
-import { useState, ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 
-function UploadFile() {
-    // State to hold the selected file
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+function UploadFile({ setSelectedFile }: { setSelectedFile: (file: File) => void }) {
 
-    // Function to handle file selection
     const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
             setSelectedFile(file);
-            // You can perform additional actions here, such as uploading the file or displaying its information.
         }
     };
 

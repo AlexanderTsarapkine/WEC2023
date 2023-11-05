@@ -1,13 +1,13 @@
 import React from 'react';
+import { Arsenal } from './interfaces/types';
 
 
 interface Props {
-    // Define props here
+    data: Arsenal[] | null;
 }
 
-const Table: React.FC<Props> = (props) => {
-    // Define component logic here
-    return (
+const Table: React.FC<Props> = ({data}) => {
+        return (
         <div className="overflow-x-auto">
             <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                 <thead className="ltr:text-left rtl:text-right">
@@ -28,32 +28,22 @@ const Table: React.FC<Props> = (props) => {
                 </thead>
 
                 <tbody className="divide-y divide-gray-200">
-                    <tr className="odd:bg-gray-50">
-                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                            John Doe
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">24/05/1995</td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">Web Developer</td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">$120,000</td>
-                    </tr>
-
-                    <tr className="odd:bg-gray-50">
-                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                            Jane Doe
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">04/11/1980</td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">Web Designer</td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">$100,000</td>
-                    </tr>
-
-                    <tr className="odd:bg-gray-50">
-                        <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                            Gary Barlow
-                        </td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">24/05/1995</td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">Singer</td>
-                        <td className="whitespace-nowrap px-4 py-2 text-gray-700">$20,000</td>
-                    </tr>
+                    {data && data.map((arsenal, index) => (
+                        <tr key={index} className={index % 2 === 0 ? 'odd:bg-gray-50' : ''}>
+                            <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                {arsenal.ObjectName}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                {arsenal.Weight}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                {arsenal.SurvivalUsefulness}
+                            </td>
+                            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                                {arsenal.CombatUsefulness}
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
         </div>

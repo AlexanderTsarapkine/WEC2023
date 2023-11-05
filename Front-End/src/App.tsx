@@ -2,20 +2,48 @@ import UploadFile from "./UploadFile";
 import Table from "./Table";
 import Output from "./Output";
 import Stage2 from "./Stage2";
+
+import { useState, useEffect } from "react";
+import { Arsenal } from "./interfaces/types";
+import { convertArsenal } from "./interfaces/convertToTable";
 function App() {
+
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [stageOne, setStageOne] = useState<Arsenal[]| null>([]);
+
+    const fileUpdated = async () => {
+      if (selectedFile) {
+        const parsedData = await convertArsenal(selectedFile);
+        setStageOne(parsedData);
+        // console.log("Alex did this");
+        // console.log(stageOne);
+      }
+      
+    };
+  
+    // Use a useEffect to run the function when selectedFile changes
+    useEffect(() => {
+      const fetchData = async () => {
+        await fileUpdated();
+      };
+  
+      fetchData();
+    }, [selectedFile]);
+
+
   return (
     <>
       <h1 className="font-bold m-4 text-2xl underline">Elon Musk Hunger Games</h1>
       <div className="flex gap-4 m-4">
         <div>
-          <UploadFile />
+          <UploadFile setSelectedFile={setSelectedFile}/>
 
         </div>
         <div className="flex-1">
           <Output tabs={[
             {
               label: "Stage 1",
-              content: <Table />
+              content: <Table data={stageOne}/>
             },
             {
               label: "Stage 2",
