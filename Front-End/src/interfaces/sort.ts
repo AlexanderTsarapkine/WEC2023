@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Arsenal } from './types';
 
 interface SortedArsenal<Arsenal> {
   data: Arsenal[];
@@ -7,12 +8,6 @@ interface SortedArsenal<Arsenal> {
   sortedByColumns: Record<keyof Arsenal, Arsenal[]>;
 }
 
-interface Arsenal {
-  ObjectName: string;
-  Weight: number;
-  SurvivalUsefulness: number;
-  CombatUsefulness: number;
-}
 
 export function useSortableTable(initialData: Arsenal[]): SortedArsenal<Arsenal> {
   const [data, setData] = useState(initialData);
@@ -29,8 +24,12 @@ export function useSortableTable(initialData: Arsenal[]): SortedArsenal<Arsenal>
     const sortedCopy = { ...sortedByColumns };
 
     sorted.sort((a, b) => {
-      if (a[columnName] < b[columnName]) return -1;
-      if (a[columnName] > b[columnName]) return 1;
+      if (a[columnName] < b[columnName]){
+        return -1;
+      }  
+      if (a[columnName] > b[columnName]) {
+        return 1;
+      }
       return 0;
     });
 
@@ -43,4 +42,3 @@ export function useSortableTable(initialData: Arsenal[]): SortedArsenal<Arsenal>
   return { data, sortedColumn, sort, sortedByColumns };
 }
 
-export type {Arsenal as Arsenal};
