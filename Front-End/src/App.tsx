@@ -1,6 +1,7 @@
 import UploadFile from "./UploadFile";
 import Table from "./Table";
 import Output from "./Output";
+import Stage2 from "./Stage2";
 function App() {
   return (
     <>
@@ -18,7 +19,28 @@ function App() {
             },
             {
               label: "Stage 2",
-              content: <div>Chart</div>
+              content: <Stage2 weight={5} arsenal={
+                [
+                  {
+                    ObjectName: "Item1",
+                    Weight: 2,
+                    SurvivalUsefulness: 4,
+                    CombatUsefulness: 5,
+                  },
+                  {
+                    ObjectName: "Item2",
+                    Weight: 3,
+                    SurvivalUsefulness: 2,
+                    CombatUsefulness: 6,
+                  },
+                  {
+                    ObjectName: "Item3",
+                    Weight: 5,
+                    SurvivalUsefulness: 8,
+                    CombatUsefulness: 4,
+                  }
+                ]
+              } optimization="both" />
             },
             {
               label: "Stage 3",

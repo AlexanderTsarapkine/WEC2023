@@ -1,12 +1,12 @@
 import React from 'react';
 
+
 interface Props {
     // Define props here
 }
 
-const MyComponent: React.FC<Props> = (props) => {
+const Table: React.FC<Props> = (props) => {
     // Define component logic here
-
     return (
         <div className="overflow-x-auto">
             <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
@@ -60,4 +60,4 @@ const MyComponent: React.FC<Props> = (props) => {
     );
 };
 
-export default MyComponent;
+export default Table;
