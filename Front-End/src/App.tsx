@@ -4,21 +4,18 @@ import Output from "./Output";
 import Stage2 from "./Stage2";
 
 import { useState, useEffect } from "react";
-import { Arsenal } from "./interfaces/types";
 import { convertArsenal } from "./interfaces/convertToTable";
+import { sortArsenalArray } from "./interfaces/sort";
 function App() {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [stageOne, setStageOne] = useState<Arsenal[]| null>([]);
+  const [stageOne, setStageOne] = useState<any>([]);
 
     const fileUpdated = async () => {
       if (selectedFile) {
         const parsedData = await convertArsenal(selectedFile);
-        setStageOne(parsedData);
-        // console.log("Alex did this");
-        // console.log(stageOne);
+        setStageOne(sortArsenalArray(parsedData));
       }
-      
     };
   
     // Use a useEffect to run the function when selectedFile changes
@@ -29,7 +26,6 @@ function App() {
   
       fetchData();
     }, [selectedFile]);
-
 
   return (
     <>
