@@ -11,6 +11,11 @@ interface Props {
     optimization: "survival" | "combat" | "both";
 }
 
+interface Bonus {
+    survival: number;
+    combat: number;
+}
+
 function calculateSM(array: number[]): number {
     function findSM(a: number, b: number): number {
         return (a * b) / findGCD(a, b);
@@ -24,6 +29,24 @@ function calculateSM(array: number[]): number {
     }
 
     return array.reduce((sm, weight) => findSM(sm, weight), array[0]);
+}
+
+function CalcBonus(array: Arsenal[], combs: Combination[]): Bonus {
+    let survival = 0;
+    let combat = 0;
+
+    for (const item of combs) {
+        const arsenalOneExists = array.some(arsenal => arsenal.ObjectName === item.ObjectOneName);
+        
+        const arsenalTwoExists = array.some(arsenal => arsenal.ObjectName === item.ObjectTwoName);
+
+        if (arsenalOneExists && arsenalTwoExists) {
+            survival += item.SurvivalBonus;
+            combat += item.CombatBonus;
+        }
+    }
+
+    return { survival, combat };
 }
 
 const Stage2: React.FC<Props> = (props) => {
@@ -53,13 +76,15 @@ const Stage2: React.FC<Props> = (props) => {
 
     }, [props.weight, props.arsenal, props.optimization]);
 
+    const bonuses = CalcBonus(mySack, props.combinations);
+
     return (
         <div>
             Gear chosen: {mySack.map((item) => item.ObjectName).join(", ")} <br />
             Gear not chosen: {props.arsenal.filter((item) => !mySack.includes(item)).map((item) => item.ObjectName).join(", ")}<br />
             Total weight of gear chosen: {mySack.reduce((total, item) => total + item.Weight, 0)}<br />
-            Total Survival Usefulness: {mySack.reduce((total, item) => total + item.SurvivalUsefulness, 0)}<br />
-            Total Combat Usefulness: {mySack.reduce((total, item) => total + item.CombatUsefulness, 0)}
+            Total Survival Usefulness: {mySack.reduce((total, item) => total + item.SurvivalUsefulness, 0) + bonuses.survival}<br />
+            Total Combat Usefulness: {mySack.reduce((total, item) => total + item.CombatUsefulness, 0)+ bonuses.combat}
         </div>
     );
 };
