@@ -25,19 +25,19 @@ const Table: React.FC<Props> = ({ data }) => {
                         ObjectName
                     </th>
                     <th
-                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 cursor-pointer"
                         onClick={() => handleClick(1)} // Set state to 2 when Weight header is clicked
                     >
                         Weight
                     </th>
                     <th
-                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 cursor-pointer"
                         onClick={() => handleClick(2)} // Set state to 3 when Survival Usefulness header is clicked
                     >
                         Survival Usefulness
                     </th>
                     <th
-                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900"
+                        className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 cursor-pointer"
                         onClick={() => handleClick(3)} // Set state to 4 when Combat Usefulness header is clicked
                     >
                         Combat Usefulness
@@ -51,7 +51,7 @@ const Table: React.FC<Props> = ({ data }) => {
                     <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                         {sortedArsenal.ObjectName}
                     </td>
-                    <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                    <td className="whitespace-nowrap px-4 py-2 text-gray-700" >
                         {sortedArsenal.Weight}
                     </td>
                     <td className="whitespace-nowrap px-4 py-2 text-gray-700">

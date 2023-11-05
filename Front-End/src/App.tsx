@@ -6,6 +6,7 @@ import Stage2 from "./Stage2";
 import { useState, useEffect } from "react";
 import { convertArsenal } from "./interfaces/convertToTable";
 import { sortArsenalArray } from "./interfaces/sort";
+import { testArsenal } from "./interfaces/knapsack";
 function App() {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -43,28 +44,7 @@ function App() {
             },
             {
               label: "Stage 2",
-              content: <Stage2 weight={5} arsenal={
-                [
-                  {
-                    ObjectName: "Item1",
-                    Weight: 2,
-                    SurvivalUsefulness: 4,
-                    CombatUsefulness: 5,
-                  },
-                  {
-                    ObjectName: "Item2",
-                    Weight: 3,
-                    SurvivalUsefulness: 2,
-                    CombatUsefulness: 6,
-                  },
-                  {
-                    ObjectName: "Item3",
-                    Weight: 5,
-                    SurvivalUsefulness: 8,
-                    CombatUsefulness: 4,
-                  }
-                ]
-              } optimization="both" />
+              content: <Stage2 weight={testArsenal.weight} arsenal={testArsenal.arsenal} optimization={testArsenal.optimization} />
             },
             {
               label: "Stage 3",

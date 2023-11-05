@@ -10,11 +10,36 @@ interface Props {
     optimization: "survival" | "combat" | "both";
 }
 
+
+
+function calulateLCD(arr: number[]) {
+    function gcd(a: number, b: number) {
+        if (!b) {
+            return a;
+        }
+        return gcd(b, a % b);
+    }
+    let divisor = arr[0];
+    for (let i = 1; i < arr.length; i++) {
+        divisor = gcd(divisor, arr[i]);
+    }
+    return divisor;
+}
 const Stage2: React.FC<Props> = (props) => {
     const [mySack, setMySack] = useState<Arsenal[]>(knapsack({ weight: props.weight, arsenal: props.arsenal, optimization: props.optimization }));
 
     useEffect(() => {
-        setMySack(knapsack({ weight: props.weight, arsenal: props.arsenal, optimization: props.optimization }));
+        const lcd = calulateLCD(props.arsenal.map((item) => item.Weight));
+        const newWeight = props.weight * lcd;
+        const newArsenal = props.arsenal.map((item) => {
+            return {
+                ...item,
+                Weight: item.Weight * lcd
+            };
+        });
+        const newSack = knapsack({ weight: newWeight, arsenal: newArsenal, optimization: props.optimization });
+        setMySack(newSack);
+        
     }, [props.weight, props.arsenal, props.optimization]);
 
     return (
